@@ -1,36 +1,50 @@
 {
-	"name": "processmaker/connector-send-email",
-	"description": "ProcessMaker BPM Connectors that provide Email service",
-	"version": "1.1.9",
-    "type": "library",
-    "authors": [
-        {
-            "name": "ProcessMaker 4 Development Team",
-            "email": "support@processmaker.com"
-        }
-    ],
-	"require": {
-		"mustache/mustache": "^2.12.0",
-		"fedeisas/laravel-mail-css-inliner": "^2.3"
-	},
-	"require-dev": {
-		"processmaker/processmaker": "4.0.*"
-	},
-	"autoload": {
-		"psr-4": {
-			"ProcessMaker\\Packages\\Connectors\\Email\\": "src/",
-			"ProcessMaker\\ScriptRunners\\": "tests/ScriptRunners/"
-		}
-	},
-	"extra": {
-		"laravel": {
-			"providers": [
-				"ProcessMaker\\Packages\\Connectors\\Email\\PluginServiceProvider",
-				"Fedeisas\\LaravelMailCssInliner\\LaravelMailCssInlinerServiceProvider"
-			]
-		}
-	},
-	"scripts": {
-		"post-autoload-dump": []
-	}
+  "name": "processmaker/connector-send-email",
+  "description": "ProcessMaker BPM Connectors that provide Email service",
+  "version": "1.1.9",
+  "type": "library",
+  "authors": [
+    {
+      "name": "ProcessMaker 4 Development Team",
+      "email": "support@processmaker.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/ProcessMaker/laravel-chunk-upload"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/ProcessMaker/processmaker"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/fedeisas/laravel-mail-css-inliner"
+    }
+  ],
+  "require": {
+    "mustache/mustache": "^2.12.0",
+    "fedeisas/laravel-mail-css-inliner": "^2.3"
+  },
+  "require-dev": {
+    "processmaker/processmaker": "4.0.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "ProcessMaker\\Packages\\Connectors\\Email\\": "src/",
+      "ProcessMaker\\ScriptRunners\\": "tests/ScriptRunners/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "ProcessMaker\\Packages\\Connectors\\Email\\PluginServiceProvider",
+        "Fedeisas\\LaravelMailCssInliner\\LaravelMailCssInlinerServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": []
+  }
 }
