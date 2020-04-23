@@ -26,7 +26,7 @@ class EmailController extends Controller
     public function send(Request $request)
     {
         $config = $request->input();
-
+        
         //Load data
         $data = json_decode($config['json_data'], true);
 
@@ -49,13 +49,20 @@ class EmailController extends Controller
         $users = !empty($config['users']) ? $this->getData($config['users'], $data) : [];
         $additionalEmails = !empty($config['addEmails']) ? $this->getData($config['addEmails'], $data) : [];
         $type =!empty( $config['type']) ? $mustache->render($config['type'], $data) : 'screen';
-
         //Load mails
-        $usersGroups = GroupMember::whereIn('group_id', $groups)
-            ->where('member_type', User::class)
-            ->pluck('member_id')
-            ->toArray();
-        $users = array_merge($users, $usersGroups);
+        $usersGroups = [];
+        if(!empty($groups[0])) {
+            $usersGroups = GroupMember::whereIn('group_id', $groups)
+                ->where('member_type', User::class)
+                ->pluck('member_id')
+                ->toArray();
+        }
+        
+        if(!empty($users[0])) {
+            $users = array_merge($users, $usersGroups);
+        }else {
+            $users = $usersGroups;
+        }
         $emails = User::whereIn('id', $users)
             ->pluck('email')
             ->toArray();
