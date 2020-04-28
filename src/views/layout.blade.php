@@ -111,12 +111,12 @@
         </div>
       </div>
       <br clear="all">
-      <hr>
-      <div align="center">
+      <!-- <hr> -->
+      <!-- <div align="center">
         Sent with ♥️ by <a href="https://www.processmaker.com">ProcessMaker 4</a> on {{date('Y-m-d H:i:s')}}
         <br><br>
         <small>&copy; {{date('Y')}} ProcessMaker Inc.</small>
-      </div>
+      </div> -->
     </div>
   </div>
 </body>

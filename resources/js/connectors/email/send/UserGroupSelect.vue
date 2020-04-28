@@ -144,7 +144,7 @@
       },
       loadGroups(filter) {
         ProcessMaker.apiClient
-          .get("groups?order_direction=asc&status=active" + (typeof filter === 'string' ? '&filter=' + filter : ''))
+          .get("groups?order_direction=asc&status=ACTIVE" + (typeof filter === 'string' ? '&filter=' + filter : ''))
           .then(response => {
             let groups = response.data.data.map(item => {
               return this.formatGroup(item);
