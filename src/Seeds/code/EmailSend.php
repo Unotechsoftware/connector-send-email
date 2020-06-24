@@ -21,6 +21,7 @@ $response = $client->request('POST', '/plugins/email/send', [
         'addEmails' => $config['addEmails'],
         'type' => $config['type'],
         'textBody' => $config['textBody'],
+        'sendToRequester' => $config['sendToRequester'],
         'json_data' => json_encode($data),
     ]
 ]);

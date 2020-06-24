@@ -47,6 +47,17 @@
             v-model="config.addEmails"
           ></add-input>
 
+          <div class="form-group">
+            <!-- <label>{{ $t('Send mail to Requester') }}</label> -->
+            <form-checkbox
+                class="form-control border-0 inspector-font-size"
+                label="Send mail to requester"
+                :checked="config.sendToRequester"
+                v-model="config.sendToRequester">
+            </form-checkbox>
+            <small class="form-text text-muted pt-2">{{ $t('Mail will be sent to the requester') }}</small>
+          </div>
+
     </div>
 
 </template>
@@ -74,6 +85,7 @@
           addEmails: [],
           users : [],
           groups : [],
+          sendToRequester: false
         },
       };
     },

@@ -130,7 +130,7 @@
         this.loading = true;
         this.options = [];
         ProcessMaker.apiClient
-          .get("users?order_direction=asc&status=active" + (typeof filter === 'string' ? '&filter=' + filter : ''))
+          .get("users?order_direction=asc&status=ACTIVE" + (typeof filter === 'string' ? '&filter=' + filter : ''))
           .then(response => {
             this.options.push({
               'type': this.$t('Users'),

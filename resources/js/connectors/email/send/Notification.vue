@@ -14,6 +14,17 @@
                     <email-options v-model="currentNotification"></email-options>
 
                     <div class="form-group">
+                        <!-- <label>{{ $t('Send mail to assignee') }}</label> -->
+                        <form-checkbox
+                            class="form-control border-0 inspector-font-size"
+                            label="Send mail to assignee"
+                            :checked="currentNotification.sendToAssignee"
+                            v-model="currentNotification.sendToAssignee">
+                        </form-checkbox>
+                        <small class="form-text text-muted pt-2">{{ $t('Mail will be sent to the assignee') }}</small>
+                    </div>
+
+                    <div class="form-group">
                         <label>{{ $t('Send At') }}</label>
                         <select class="form-control" v-model="currentNotification.sendAt">
                             <option value="task-start">{{ $t('Task Start') }}</option>
@@ -99,6 +110,7 @@ export default {
                 users: [],
                 groups: [],
                 screenRef: null,
+                sendToAssignee: false
             },
             currentNotification: null,
             currentNotificationIndex: null,
@@ -106,6 +118,7 @@ export default {
             deleteIndex: null,
             showConfig: false,
             configHeader: '',
+
         }
     },
     watch: {

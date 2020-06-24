@@ -2,8 +2,10 @@
 
 namespace ProcessMaker\Packages\Connectors\Email;
 
+use Illuminate\Support\Facades\Log;
 use ProcessMaker\Facades\WorkflowManager;
 use ProcessMaker\Models\Process;
+use ProcessMaker\Models\ProcessRequest;
 use ProcessMaker\Nayra\Bpmn\Events\ActivityActivatedEvent;
 use ProcessMaker\Nayra\Bpmn\Events\ActivityCompletedEvent;
 use ProcessMaker\Packages\Connectors\Email\Seeds\EmailSendSeeder;
@@ -42,6 +44,7 @@ class Notifications
      */
     private function sendNotificationAt($event, $sendAt)
     {
+
         if (!isset($event->token->getDefinition()['config'])) {
             return;
         }
@@ -51,6 +54,21 @@ class Notifications
             foreach ($config['email_notifications']['notifications'] as $notificationConfig) {
                 if ($notificationConfig['sendAt'] !== $sendAt) {
                     continue;
+                }
+                // Send mail to assignee(Normal Task)
+                if (isset($notificationConfig['sendToAssignee']) && $notificationConfig['sendToAssignee']) {
+                    if (!in_array($event->token->user_id, $notificationConfig['users'])) {
+                        array_push($notificationConfig['users'], $event->token->user_id);
+                    }
+                }
+                // Send mail to requester(Normal Task)
+                if (isset($notificationConfig['sendToRequester']) && $notificationConfig['sendToRequester']) {
+                    if (isset($event->token->process_request_id)) {
+                        $data = ProcessRequest::where('id','=', $event->token->process_request_id)->first();
+                        if (!in_array($data["user_id"], $notificationConfig['users'])) {
+                            array_push($notificationConfig['users'], $data["user_id"]);
+                        }
+                    }
                 }
                 $this->createNotification(
                     $notificationConfig,
@@ -69,7 +87,9 @@ class Notifications
     private function createNotification($notificationConfig, $token)
     {
         $subProcess = $this->notificationSubProcess();
+
         $definitions = $subProcess->getDefinitions();
+
         $event = $definitions->getEvent(EmailSendSeeder::SUB_PROCESS_START_EVENT);
         WorkflowManager::triggerStartEvent(
             $subProcess, $event, array_merge($token->processRequest->data, [

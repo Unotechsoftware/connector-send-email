@@ -26,7 +26,7 @@ class EmailController extends Controller
     public function send(Request $request)
     {
         $config = $request->input();
-        
+ 
         //Load data
         $data = json_decode($config['json_data'], true);
 
@@ -41,6 +41,20 @@ class EmailController extends Controller
                 } else {
                     $data['notification_config'][$key] = $mustache->render((string) $value, $data);
                 }
+            }
+        }
+
+        if (isset($config['sendToRequester']) && $config['sendToRequester']) {
+            if (isset($data['_request']['id'])) {
+                $process_data = ProcessRequest::where('id','=', $data['_request']['id'])->first();
+                if(isset($config['users']) && is_array($config['users'])) {
+                    if (!in_array($process_data["user_id"], $config['users'])) {
+                        array_push($config['users'], $process_data["user_id"]);
+                    }
+                }
+                if (!isset($config['users'])) {
+                    $config['users'] = [$process_data["user_id"]];
+                }                
             }
         }
 
