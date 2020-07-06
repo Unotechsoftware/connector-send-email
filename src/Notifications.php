@@ -70,6 +70,19 @@ class Notifications
                         }
                     }
                 }
+
+                // Send mail to participants(Normal Task)
+                if (isset($notificationConfig['sendToParticipants']) && $notificationConfig['sendToParticipants']) {
+                    if (isset($event->token->process_request_id)) {
+                        $data = ProcessRequest::where('id','=', $event->token->process_request_id)->first();
+                        $participantsArr = $data->getNotifiableUserIds('participants');
+                        foreach($participantsArr as $value) {
+                            if (!in_array($value, $notificationConfig['users'])) {
+                                array_push($notificationConfig['users'], $value);
+                            }
+                        }
+                    }
+                }
                 $this->createNotification(
                     $notificationConfig,
                     $event->token
