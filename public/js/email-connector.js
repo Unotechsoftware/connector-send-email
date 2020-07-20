@@ -472,6 +472,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -506,7 +516,8 @@ __webpack_require__.r(__webpack_exports__);
         users: [],
         groups: [],
         screenRef: null,
-        sendToAssignee: false
+        sendToAssignee: false,
+        sendToParticipants: false
       },
       currentNotification: null,
       currentNotificationIndex: null,
@@ -2131,6 +2142,45 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("form-checkbox", {
+                        staticClass:
+                          "form-control border-0 inspector-font-size",
+                        attrs: {
+                          label: "Send mail to participants",
+                          checked: _vm.currentNotification.sendToParticipants
+                        },
+                        model: {
+                          value: _vm.currentNotification.sendToParticipants,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.currentNotification,
+                              "sendToParticipants",
+                              $$v
+                            )
+                          },
+                          expression: "currentNotification.sendToParticipants"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "small",
+                        { staticClass: "form-text text-muted pt-2" },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm.$t("Mail will be sent to the participants")
+                            )
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v(_vm._s(_vm.$t("Send At")))]),
                     _vm._v(" "),
@@ -3360,7 +3410,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/processmaker4/connector-send-email/resources/js/email-connector.js */"./resources/js/email-connector.js");
+module.exports = __webpack_require__(/*! /var/www/html/processmaker-cdsl/connector-send-email/resources/js/email-connector.js */"./resources/js/email-connector.js");
 
 
 /***/ })

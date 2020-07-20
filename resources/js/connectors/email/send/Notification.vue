@@ -25,6 +25,16 @@
                     </div>
 
                     <div class="form-group">
+                        <form-checkbox
+                            class="form-control border-0 inspector-font-size"
+                            label="Send mail to participants"
+                            :checked="currentNotification.sendToParticipants"
+                            v-model="currentNotification.sendToParticipants">
+                        </form-checkbox>
+                        <small class="form-text text-muted pt-2">{{ $t('Mail will be sent to the participants') }}</small>
+                    </div>
+
+                    <div class="form-group">
                         <label>{{ $t('Send At') }}</label>
                         <select class="form-control" v-model="currentNotification.sendAt">
                             <option value="task-start">{{ $t('Task Start') }}</option>
@@ -110,7 +120,8 @@ export default {
                 users: [],
                 groups: [],
                 screenRef: null,
-                sendToAssignee: false
+                sendToAssignee: false,
+                sendToParticipants: false
             },
             currentNotification: null,
             currentNotificationIndex: null,
