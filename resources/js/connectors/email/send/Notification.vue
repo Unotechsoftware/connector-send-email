@@ -35,6 +35,16 @@
                     </div>
 
                     <div class="form-group">
+                        <form-checkbox
+                            class="form-control border-0 inspector-font-size"
+                            label="Attach Uploaded File"
+                            :checked="currentNotification.attachUploadFile"
+                            v-model="currentNotification.attachUploadFile">
+                        </form-checkbox>
+                        <small class="form-text text-muted pt-2">{{ $t('Uploaded File will be sent as an attachment in email.') }}</small>
+                    </div>
+
+                    <div class="form-group">
                         <label>{{ $t('Send At') }}</label>
                         <select class="form-control" v-model="currentNotification.sendAt">
                             <option value="task-start">{{ $t('Task Start') }}</option>
@@ -121,7 +131,8 @@ export default {
                 groups: [],
                 screenRef: null,
                 sendToAssignee: false,
-                sendToParticipants: false
+                sendToParticipants: false,
+                attachUploadFile: false
             },
             currentNotification: null,
             currentNotificationIndex: null,

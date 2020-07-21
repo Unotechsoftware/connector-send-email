@@ -12,6 +12,7 @@ use ProcessMaker\Models\Screen;
 use ProcessMaker\Models\User;
 use ProcessMaker\Models\Comment;
 use ProcessMaker\Models\ProcessRequest;
+use ProcessMaker\Models\Media;
 use ProcessMaker\Packages\Connectors\Email\Jobs\SendEmail;
 use ProcessMaker\Packages\Connectors\Email\ScreenRenderer;
 
@@ -98,6 +99,16 @@ class EmailController extends Controller
         } else {
             //Plain text
             $config['body'] = htmlentities($mustache->render($config['textBody'], $data), ENT_QUOTES, 'UTF-8');
+        }
+
+        if(isset($data['notification_config']['attachUploadFile']) && $data['notification_config']['attachUploadFile']) {
+
+            $media = Media::where('model_id','=', $data['_request_id'])->orderBy('created_at', 'desc')->first();
+            $processRequest = ProcessRequest::where('id','=', $data['_request_id'])->first();
+
+            $config['media'] = $media;
+            $config['processRequest'] = $processRequest;
+            $config['file_name'] = $media['file_name'];
         }
 
         //change mustache
