@@ -482,6 +482,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -517,7 +527,8 @@ __webpack_require__.r(__webpack_exports__);
         groups: [],
         screenRef: null,
         sendToAssignee: false,
-        sendToParticipants: false
+        sendToParticipants: false,
+        attachUploadFile: false
       },
       currentNotification: null,
       currentNotificationIndex: null,
@@ -2181,6 +2192,47 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("form-checkbox", {
+                        staticClass:
+                          "form-control border-0 inspector-font-size",
+                        attrs: {
+                          label: "Attach Uploaded File",
+                          checked: _vm.currentNotification.attachUploadFile
+                        },
+                        model: {
+                          value: _vm.currentNotification.attachUploadFile,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.currentNotification,
+                              "attachUploadFile",
+                              $$v
+                            )
+                          },
+                          expression: "currentNotification.attachUploadFile"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "small",
+                        { staticClass: "form-text text-muted pt-2" },
+                        [
+                          _vm._v(
+                            _vm._s(
+                              _vm.$t(
+                                "Uploaded File will be sent as an attachment in email."
+                              )
+                            )
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v(_vm._s(_vm.$t("Send At")))]),
                     _vm._v(" "),
@@ -3410,7 +3462,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/processmaker-cdsl/connector-send-email/resources/js/email-connector.js */"./resources/js/email-connector.js");
+module.exports = __webpack_require__(/*! /var/www/html/connector-send-email/resources/js/email-connector.js */"./resources/js/email-connector.js");
 
 
 /***/ })
