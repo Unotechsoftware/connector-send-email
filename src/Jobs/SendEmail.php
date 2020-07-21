@@ -45,23 +45,31 @@ class SendEmail implements ShouldQueue
      * @return void
      */
     public function handle()
-    {
-        $this->properties['processRequest']->getMedia();
+    {   
+        if(isset($this->properties['media'])) {
+            $this->properties['processRequest']->getMedia();
 
-        $file_enc_key = base64_decode(substr(config('app.file_key'), 7));
-        $newEncrypter = new Encrypter( $file_enc_key, config('app.cipher'));
-        $encryptedContent = Storage::get('public/'. $this->properties['media']->id.'/'. $this->properties['media']->file_name.'.enc');
-        try{
-            $this->properties['decryptedContent'] = $newEncrypter->decrypt($encryptedContent);
-        } catch (DecryptException $e){
-            Log::debug("Failed to Decrypt File.");
+            $file_enc_key = base64_decode(substr(config('app.file_key'), 7));
+            $newEncrypter = new Encrypter( $file_enc_key, config('app.cipher'));
+            $encryptedContent = Storage::get('public/'. $this->properties['media']->id.'/'. $this->properties['media']->file_name.'.enc');
+            try{
+                $this->properties['decryptedContent'] = $newEncrypter->decrypt($encryptedContent);
+            } catch (DecryptException $e){
+                Log::debug("Failed to Decrypt File.");
+            }
+
+            Mail::send([], [], function (Message $message) {
+                $message->to($this->properties['email'])
+                    ->subject($this->properties['subject'])
+                    ->setBody(view('email::layout', array_merge($this->properties, ['message' => $message]))->render(), 'text/html');
+                $message->attachData($this->properties['decryptedContent'], $this->properties['file_name']);
+            });
+        } else {
+            Mail::send([], [], function (Message $message) {
+                $message->to($this->properties['email'])
+                    ->subject($this->properties['subject'])
+                    ->setBody(view('email::layout', array_merge($this->properties, ['message' => $message]))->render(), 'text/html');
+            });
         }
-        
-        Mail::send([], [], function (Message $message) {
-            $message->to($this->properties['email'])
-                ->subject($this->properties['subject'])
-                ->setBody(view('email::layout', array_merge($this->properties, ['message' => $message]))->render(), 'text/html');
-            $message->attachData($this->properties['decryptedContent'], $this->properties['file_name']);
-        });
     }
 }

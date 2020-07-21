@@ -106,9 +106,11 @@ class EmailController extends Controller
             $media = Media::where('model_id','=', $data['_request_id'])->orderBy('created_at', 'desc')->first();
             $processRequest = ProcessRequest::where('id','=', $data['_request_id'])->first();
 
-            $config['media'] = $media;
             $config['processRequest'] = $processRequest;
-            $config['file_name'] = $media['file_name'];
+            if(isset($media)) {
+                $config['media'] = $media;
+                $config['file_name'] = $media['file_name'];
+            }
         }
 
         //change mustache
