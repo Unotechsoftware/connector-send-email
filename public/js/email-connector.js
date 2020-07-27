@@ -492,6 +492,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -528,7 +534,8 @@ __webpack_require__.r(__webpack_exports__);
         screenRef: null,
         sendToAssignee: false,
         sendToParticipants: false,
-        attachUploadFile: false
+        attachUploadFile: false,
+        noOfAttachments: 4
       },
       currentNotification: null,
       currentNotificationIndex: null,
@@ -617,6 +624,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeForm: function closeForm() {
       this.showConfig = false;
+    },
+    noOfAttachmentsInValidate: function noOfAttachmentsInValidate(event) {
+      if (event.key === "-" || event.key === "e") {
+        event.preventDefault();
+        return;
+      }
     }
   },
   mounted: function mounted() {
@@ -2232,6 +2245,53 @@ var render = function() {
                     ],
                     1
                   ),
+                  _vm._v(" "),
+                  _vm.currentNotification.attachUploadFile
+                    ? _c("div", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v(_vm._s(_vm.$t("No. Of Email Attachments.")))
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.currentNotification.noOfAttachments,
+                              expression: "currentNotification.noOfAttachments"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "number", min: "1" },
+                          domProps: {
+                            value: _vm.currentNotification.noOfAttachments
+                          },
+                          on: {
+                            keydown: _vm.noOfAttachmentsInValidate,
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.currentNotification,
+                                "noOfAttachments",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("small", { staticClass: "form-text text-muted" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm.$t(
+                                "Specify the maximum number of attachments to be sent in email."
+                              )
+                            )
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v(_vm._s(_vm.$t("Send At")))]),

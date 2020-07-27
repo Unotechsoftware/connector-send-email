@@ -44,6 +44,12 @@
                         <small class="form-text text-muted pt-2">{{ $t('Uploaded File will be sent as an attachment in email.') }}</small>
                     </div>
 
+                    <div class="form-group" v-if="currentNotification.attachUploadFile">
+                        <label>{{ $t('No. Of Email Attachments.') }}</label>
+                        <input class="form-control" v-model="currentNotification.noOfAttachments" type="number" min="1" v-on:keydown="noOfAttachmentsInValidate">
+                        <small class="form-text text-muted">{{ $t('Specify the maximum number of attachments to be sent in email.') }}</small>
+                    </div>
+
                     <div class="form-group">
                         <label>{{ $t('Send At') }}</label>
                         <select class="form-control" v-model="currentNotification.sendAt">
@@ -132,7 +138,8 @@ export default {
                 screenRef: null,
                 sendToAssignee: false,
                 sendToParticipants: false,
-                attachUploadFile: false
+                attachUploadFile: false,
+                noOfAttachments: 4
             },
             currentNotification: null,
             currentNotificationIndex: null,
@@ -220,6 +227,12 @@ export default {
         },
         closeForm() {
             this.showConfig = false
+        },
+        noOfAttachmentsInValidate(event) {
+            if (event.key === "-" || event.key === "e") {
+            event.preventDefault();
+            return;
+            }
         },
     },
     mounted() {
