@@ -46,23 +46,35 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {   
-        if(isset($this->properties['media'])) {
+        if(isset($this->properties['media']) && sizeof($this->properties['media']) > 0) {
+
             $this->properties['processRequest']->getMedia();
 
-            $file_enc_key = base64_decode(substr(config('app.file_key'), 7));
-            $newEncrypter = new Encrypter( $file_enc_key, config('app.cipher'));
-            $encryptedContent = Storage::get('public/'. $this->properties['media']->id.'/'. $this->properties['media']->file_name.'.enc');
-            try{
-                $this->properties['decryptedContent'] = $newEncrypter->decrypt($encryptedContent);
-            } catch (DecryptException $e){
-                Log::debug("Failed to Decrypt File.");
-            }
+            $this->properties['attachments'] = [];
+            
+            for ($i=0; $i < sizeof($this->properties['media']); $i++) {
 
+                $file_enc_key = base64_decode(substr(config('app.file_key'), 7));
+                $newEncrypter = new Encrypter( $file_enc_key, config('app.cipher'));
+                $encryptedContent = Storage::get('public/'. $this->properties['media'][$i]->id.'/'. $this->properties['media'][$i]->file_name.'.enc');
+
+                $this->properties['attachments'][$i]['file_name'] = $this->properties['media'][$i]->file_name;
+
+                try{
+                    $this->properties['attachments'][$i]['decryptedContent'] = $newEncrypter->decrypt($encryptedContent);
+                } catch (DecryptException $e){
+                    Log::debug("Failed to Decrypt File.");
+                }
+            }
+            
             Mail::send([], [], function (Message $message) {
                 $message->to($this->properties['email'])
                     ->subject($this->properties['subject'])
                     ->setBody(view('email::layout', array_merge($this->properties, ['message' => $message]))->render(), 'text/html');
-                $message->attachData($this->properties['decryptedContent'], $this->properties['file_name']);
+                    
+                foreach ($this->properties['attachments'] as $val) {
+                    $message->attachData($val['decryptedContent'], $val['file_name']);
+                }
             });
         } else {
             Mail::send([], [], function (Message $message) {
