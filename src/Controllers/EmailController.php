@@ -104,7 +104,7 @@ class EmailController extends Controller
         if(isset($data['notification_config']['attachUploadFile']) && $data['notification_config']['attachUploadFile']) {
 
             if(isset($data['notification_config']['noOfAttachments']) && $data['notification_config']['noOfAttachments'] > 0 ){
-                $media = Media::where('model_id','=', $data['_request_id'])->orderBy('created_at', 'desc')->limit($data['notification_config']['noOfAttachments'])->get();
+                $media = Media::where([['model_id','=', $data['_request_id']],['model_type','=','ProcessMaker\Models\ProcessRequest']])->orderBy('created_at', 'desc')->limit($data['notification_config']['noOfAttachments'])->get();
             }
             $processRequest = ProcessRequest::where('id','=', $data['_request_id'])->first();
 
