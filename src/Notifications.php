@@ -108,7 +108,7 @@ class Notifications
             $subProcess, $event, array_merge($token->processRequest->data, [
                 '_request_id' => $token->processRequest->id,
                 '_task_name' => $token->element_name,
-                '_task_subject' => $token->processRequest->subject,
+                '_task_subject' => isset($token->processRequest->subject) ? $token->processRequest->subject : '',
                 'notification_config' => $notificationConfig
             ])
         );
