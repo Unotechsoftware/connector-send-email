@@ -110,7 +110,7 @@ class Notifications
                 '_task_name' => $token->element_name,
                 '_task_subject' => isset($token->processRequest->subject) ? $token->processRequest->subject : '',
                 'notification_config' => $notificationConfig,
-                '_workflow_final_status' => isset($token->processRequest->workflow_status) ? $token->processRequest->workflow_status : '' 
+                '_workflow_final_status' => isset($token->processRequest->workflow_status) ? $token->processRequest->workflow_status : ''
             ])
         );
     }
