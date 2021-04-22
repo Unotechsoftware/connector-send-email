@@ -5,7 +5,7 @@ class ScreenRenderer
 {
     public static function render($screen_config, $data)
     {
-        $node = env('NODE_BIN_PATH', '/usr/bin/node');
+        $node = env('NODE_BIN_PATH', '/usr/local/bin/node');
         $entry = __DIR__ . '/../resources/js/ssr/entry.js';
         $cmd = join(' ', [
             $node,
@@ -16,7 +16,7 @@ class ScreenRenderer
         ]);
         exec($cmd, $out, $err);
         if ($err) {
-            throw new \Exception($err);
+            throw new \Exception("\n\n".$cmd."\n".$err);
         }
         $out = join("\n", $out);
         if (!preg_match('/\[BEGIN-SSR\](.*)\[END-SSR\]/s', $out, $matches)) {
